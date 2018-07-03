@@ -7,9 +7,6 @@
 TEMPLATE = lib
 TARGET = parseagle
 
-# Set the path for the generated library
-GENERATED_DIR = ../../generated
-
 # Use common project definitions
 include(../../common.pri)
 
