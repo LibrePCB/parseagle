@@ -1,5 +1,5 @@
 # CMake version configuration
-cmake_minimum_required(VERSION 3.2...3.18)
+cmake_minimum_required(VERSION 3.5...3.19)
 if(${CMAKE_VERSION} VERSION_LESS 3.12)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
@@ -7,8 +7,6 @@ endif()
 # Define project
 project(parseagle
     VERSION 0.1.0
-    DESCRIPTION "A C++/Qt library for parsing XML files created by EAGLE."
-    HOMEPAGE_URL "https://github.com/LibrePCB/parseagle"
     LANGUAGES CXX)
 
 # Use C++11
