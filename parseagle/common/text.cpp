@@ -13,6 +13,32 @@ Text::Text(const DomElement& root)
     if (root.hasAttribute("rot")) {
         mRotation = Rotation(root.getAttributeAsString("rot"));
     }
+    if (root.hasAttribute("align")) {
+        QString alignStr = root.getAttributeAsString("align");
+        if (alignStr == "bottom-left") {
+            mAlignment = Alignment::BottomLeft;
+        } else if (alignStr == "bottom-center") {
+            mAlignment = Alignment::BottomCenter;
+        } else if (alignStr == "bottom-right") {
+            mAlignment = Alignment::BottomRight;
+        } else if (alignStr == "center-left") {
+            mAlignment = Alignment::CenterLeft;
+        } else if (alignStr == "center") {
+            mAlignment = Alignment::Center;
+        } else if (alignStr == "center-right") {
+            mAlignment = Alignment::CenterRight;
+        } else if (alignStr == "top-left") {
+            mAlignment = Alignment::TopLeft;
+        } else if (alignStr == "top-center") {
+            mAlignment = Alignment::TopCenter;
+        } else if (alignStr == "top-right") {
+            mAlignment = Alignment::TopRight;
+        } else {
+            throw std::runtime_error("Unknown text alignment: " + alignStr.toStdString());
+        }
+    } else {
+        mAlignment = Alignment::BottomLeft;
+    }
     mValue = root.getText();
 }
 
