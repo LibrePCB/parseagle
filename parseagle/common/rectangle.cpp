@@ -11,8 +11,9 @@ Rectangle::Rectangle(const DomElement& root)
     mP1.y = root.getAttributeAsDouble("y1");
     mP2.x = root.getAttributeAsDouble("x2");
     mP2.y = root.getAttributeAsDouble("y2");
-
-    // TODO: Support rotation!
+    if (root.hasAttribute("rot")) {
+        mRotation = Rotation(root.getAttributeAsString("rot"));
+    }
 }
 
 Rectangle::~Rectangle() noexcept
