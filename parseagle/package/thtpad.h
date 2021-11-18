@@ -19,6 +19,7 @@ class ThtPad final
             Octagon,
             Round,
             Long,
+            Offset,
         };
 
         // Constructors / Destructor

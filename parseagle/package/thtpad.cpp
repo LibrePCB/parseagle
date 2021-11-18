@@ -27,6 +27,8 @@ ThtPad::ThtPad(const DomElement& root)
             mShape = Shape::Round;
         } else if (shapeStr == "long") {
             mShape = Shape::Long;
+        } else if (shapeStr == "offset") {
+            mShape = Shape::Offset;
         } else {
             throw std::runtime_error("Unknown pad shape: " + shapeStr.toStdString());
         }
