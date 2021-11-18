@@ -4,7 +4,7 @@
 
 namespace parseagle {
 
-Package::Package(const DomElement& root)
+Package::Package(const DomElement& root, QStringList* errors)
 {
     mName = root.getAttributeAsString("name");
     foreach (const DomElement& child, root.getChilds()) {
@@ -19,15 +19,15 @@ Package::Package(const DomElement& root)
         } else if (child.getTagName() == "polygon") {
             mPolygons.append(Polygon(child));
         } else if (child.getTagName() == "text") {
-            mTexts.append(Text(child));
+            mTexts.append(Text(child, errors));
         } else if (child.getTagName() == "hole") {
             mHoles.append(Hole(child));
         } else if (child.getTagName() == "pad") {
-            mThtPads.append(ThtPad(child));
+            mThtPads.append(ThtPad(child, errors));
         } else if (child.getTagName() == "smd") {
             mSmtPads.append(SmtPad(child));
-        } else {
-            throw std::runtime_error("Unknown package child: " + child.getTagName().toStdString());
+        } else if (errors) {
+            errors->append("Unknown package child: " + child.getTagName());
         }
     }
 }

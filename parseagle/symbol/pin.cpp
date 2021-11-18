@@ -4,12 +4,13 @@
 
 namespace parseagle {
 
-Pin::Pin(const DomElement& root)
+Pin::Pin(const DomElement& root, QStringList* errors)
 {
     mName = root.getAttributeAsString("name");
     mPosition.x = root.getAttributeAsDouble("x");
     mPosition.y = root.getAttributeAsDouble("y");
 
+    mLength = Length::Unknown;
     if (root.hasAttribute("length")) {
         QString lengthStr = root.getAttributeAsString("length");
         if (lengthStr == "point") {
@@ -20,8 +21,8 @@ Pin::Pin(const DomElement& root)
             mLength = Length::Middle;
         } else if (lengthStr == "long") {
             mLength = Length::Long;
-        } else {
-            throw std::runtime_error("Unknown pin length: " + lengthStr.toStdString());
+        } else if (errors) {
+            errors->append("Unknown pin length: " + lengthStr);
         }
     } else {
         mLength = Length::Long;

@@ -4,7 +4,7 @@
 
 namespace parseagle {
 
-Library::Library(const QString& filepath)
+Library::Library(const QString& filepath, QStringList* errors)
 {
     QFile file(filepath);
     if (!file.exists()) {
@@ -32,16 +32,36 @@ Library::Library(const QString& filepath)
 
     if (library.hasChild("symbols")) {
         foreach (const DomElement& child, library.getFirstChild("symbols").getChilds()) {
-            mSymbols.append(Symbol(child));
+            try {
+                mSymbols.append(Symbol(child, errors));
+            } catch (const std::exception& e) {
+                if (errors) {
+                    errors->append(QString("Failed to parse symbol: %1").arg(e.what()));
+                }
+            }
         }
     }
     if (library.hasChild("packages")) {
         foreach (const DomElement& child, library.getFirstChild("packages").getChilds()) {
-            mPackages.append(Package(child));
+            try {
+                mPackages.append(Package(child, errors));
+            } catch (const std::exception& e) {
+                if (errors) {
+                    errors->append(QString("Failed to parse package: %1").arg(e.what()));
+                }
+            }
         }
     }
-    foreach (const DomElement& child, library.getFirstChild("devicesets").getChilds()) {
-        mDeviceSets.append(DeviceSet(child));
+    if (library.hasChild("devicesets")) {
+        foreach (const DomElement& child, library.getFirstChild("devicesets").getChilds()) {
+            try {
+                mDeviceSets.append(DeviceSet(child, errors));
+            } catch (const std::exception& e) {
+                if (errors) {
+                    errors->append(QString("Failed to parse deviceset: %1").arg(e.what()));
+                }
+            }
+        }
     }
 }
 

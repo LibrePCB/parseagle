@@ -21,7 +21,7 @@ class Package final
 
         // Constructors / Destructor
         Package() = delete;
-        explicit Package(const DomElement& root);
+        explicit Package(const DomElement& root, QStringList* errors = nullptr);
         ~Package() noexcept;
 
         // Getters

@@ -4,7 +4,7 @@
 
 namespace parseagle {
 
-Text::Text(const DomElement& root)
+Text::Text(const DomElement& root, QStringList* errors)
 {
     mLayer = root.getAttributeAsInt("layer");
     mSize = root.getAttributeAsDouble("size");
@@ -13,6 +13,7 @@ Text::Text(const DomElement& root)
     if (root.hasAttribute("rot")) {
         mRotation = Rotation(root.getAttributeAsString("rot"));
     }
+    mAlignment = Alignment::Unknown;
     if (root.hasAttribute("align")) {
         QString alignStr = root.getAttributeAsString("align");
         if (alignStr == "bottom-left") {
@@ -33,8 +34,8 @@ Text::Text(const DomElement& root)
             mAlignment = Alignment::TopCenter;
         } else if (alignStr == "top-right") {
             mAlignment = Alignment::TopRight;
-        } else {
-            throw std::runtime_error("Unknown text alignment: " + alignStr.toStdString());
+        } else if (errors) {
+            errors->append("Unknown text alignment: " + alignStr);
         }
     } else {
         mAlignment = Alignment::BottomLeft;

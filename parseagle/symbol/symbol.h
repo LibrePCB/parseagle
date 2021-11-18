@@ -19,7 +19,7 @@ class Symbol final
 
         // Constructors / Destructor
         Symbol() = delete;
-        explicit Symbol(const DomElement& root);
+        explicit Symbol(const DomElement& root, QStringList* errors = nullptr);
         ~Symbol() noexcept;
 
         // Getters

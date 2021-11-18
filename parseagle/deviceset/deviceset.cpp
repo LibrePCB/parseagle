@@ -4,7 +4,7 @@
 
 namespace parseagle {
 
-DeviceSet::DeviceSet(const DomElement& root)
+DeviceSet::DeviceSet(const DomElement& root, QStringList* errors)
 {
     mName = root.getAttributeAsString("name");
 
@@ -16,11 +16,15 @@ DeviceSet::DeviceSet(const DomElement& root)
         mDescription = root.getFirstChild("description").getText();
     }
 
-    foreach (const DomElement& child, root.getFirstChild("gates").getChilds()) {
-        mGates.append(Gate(child));
+    if (root.hasChild("gates")) {
+        foreach (const DomElement& child, root.getFirstChild("gates").getChilds()) {
+            mGates.append(Gate(child, errors));
+        }
     }
-    foreach (const DomElement& child, root.getFirstChild("devices").getChilds()) {
-        mDevices.append(Device(child));
+    if (root.hasChild("devices")) {
+        foreach (const DomElement& child, root.getFirstChild("devices").getChilds()) {
+            mDevices.append(Device(child));
+        }
     }
 }
 

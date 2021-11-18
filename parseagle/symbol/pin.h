@@ -15,6 +15,7 @@ class Pin final
 
         // Types
         enum class Length {
+            Unknown,  // Failed to parse XML attribute.
             Point,
             Short,
             Middle,
@@ -23,7 +24,7 @@ class Pin final
 
         // Constructors / Destructor
         Pin() = delete;
-        explicit Pin(const DomElement& root);
+        explicit Pin(const DomElement& root, QStringList* errors = nullptr);
         ~Pin() noexcept;
 
         // Getters

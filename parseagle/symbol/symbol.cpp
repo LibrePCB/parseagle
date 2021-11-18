@@ -4,7 +4,7 @@
 
 namespace parseagle {
 
-Symbol::Symbol(const DomElement& root)
+Symbol::Symbol(const DomElement& root, QStringList* errors)
 {
     mName = root.getAttributeAsString("name");
     foreach (const DomElement& child, root.getChilds()) {
@@ -19,11 +19,11 @@ Symbol::Symbol(const DomElement& root)
         } else if (child.getTagName() == "polygon") {
             mPolygons.append(Polygon(child));
         } else if (child.getTagName() == "text") {
-            mTexts.append(Text(child));
+            mTexts.append(Text(child, errors));
         } else if (child.getTagName() == "pin") {
-            mPins.append(Pin(child));
-        } else {
-            throw std::runtime_error("Unknown symbol child: " + child.getTagName().toStdString());
+            mPins.append(Pin(child, errors));
+        } else if (errors) {
+            errors->append("Unknown symbol child: " + child.getTagName());
         }
     }
 }

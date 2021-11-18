@@ -14,6 +14,7 @@ class Gate final
 
         // Types
         enum class AddLevel {
+            Unknown,  // Failed to parse XML attribute.
             Must,
             Can,
             Next,
@@ -23,7 +24,7 @@ class Gate final
 
         // Constructors / Destructor
         Gate() = delete;
-        explicit Gate(const DomElement& root);
+        explicit Gate(const DomElement& root, QStringList* errors = nullptr);
         ~Gate() noexcept;
 
         // Getters

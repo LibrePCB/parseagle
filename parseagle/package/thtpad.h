@@ -15,6 +15,7 @@ class ThtPad final
 
         // Types
         enum class Shape {
+            Unknown,  // Failed to parse XML attribute.
             Square,
             Octagon,
             Round,
@@ -24,7 +25,7 @@ class ThtPad final
 
         // Constructors / Destructor
         ThtPad() = delete;
-        explicit ThtPad(const DomElement& root);
+        explicit ThtPad(const DomElement& root, QStringList* errors = nullptr);
         ~ThtPad() noexcept;
 
         // Getters

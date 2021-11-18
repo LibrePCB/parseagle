@@ -15,6 +15,7 @@ class Text final
 
         // Types
         enum class Alignment {
+            Unknown,  // Failed to parse XML attribute.
             BottomLeft,
             BottomCenter,
             BottomRight,
@@ -28,7 +29,7 @@ class Text final
 
         // Constructors / Destructor
         Text() = delete;
-        explicit Text(const DomElement& root);
+        explicit Text(const DomElement& root, QStringList* errors = nullptr);
         ~Text() noexcept;
 
         // Getters

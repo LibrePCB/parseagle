@@ -4,7 +4,7 @@
 
 namespace parseagle {
 
-ThtPad::ThtPad(const DomElement& root)
+ThtPad::ThtPad(const DomElement& root, QStringList* errors)
 {
     mName = root.getAttributeAsString("name");
     mPosition.x = root.getAttributeAsDouble("x");
@@ -17,6 +17,7 @@ ThtPad::ThtPad(const DomElement& root)
         mOuterDiameter = 0.0;
     }
 
+    mShape = Shape::Unknown;
     if (root.hasAttribute("shape")) {
         QString shapeStr = root.getAttributeAsString("shape");
         if (shapeStr == "square") {
@@ -29,8 +30,8 @@ ThtPad::ThtPad(const DomElement& root)
             mShape = Shape::Long;
         } else if (shapeStr == "offset") {
             mShape = Shape::Offset;
-        } else {
-            throw std::runtime_error("Unknown pad shape: " + shapeStr.toStdString());
+        } else if (errors) {
+            errors->append("Unknown pad shape: " + shapeStr);
         }
     } else {
         mShape = Shape::Round;

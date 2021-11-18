@@ -15,7 +15,7 @@ class DeviceSet final
 
         // Constructors / Destructor
         DeviceSet() = delete;
-        explicit DeviceSet(const DomElement& root);
+        explicit DeviceSet(const DomElement& root, QStringList* errors = nullptr);
         ~DeviceSet() noexcept;
 
         // Getters

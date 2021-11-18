@@ -14,7 +14,7 @@ class Library final
 
         // Constructors / Destructor
         Library() = delete;
-        explicit Library(const QString& filepath);
+        explicit Library(const QString& filepath, QStringList* errors = nullptr);
         ~Library() noexcept;
 
         // Getters
