@@ -3,52 +3,55 @@ on: [push, pull_request]
 jobs:
 
   qmake:
-    name: "qmake on ${{ matrix.runner }}"
-    runs-on: "${{ matrix.runner }}"
+    name: "qmake on ${{ matrix.image }}"
+    runs-on: ubuntu-20.04
+    container:
+      image: "${{ matrix.image }}"
     strategy:
       matrix:
-        runner:
-          - "ubuntu-16.04"
-          - "ubuntu-18.04"
-          - "ubuntu-20.04"
+        image:
+          - "ubuntu:16.04"
+          - "ubuntu:18.04"
+          - "ubuntu:20.04"
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
       - uses: actions/checkout@v2
       - name: Install qt and build tools
         run: |
-          sudo apt-get update &&
-          sudo apt-get install -y --no-install-recommends \
+          apt-get update &&
+          apt-get install -y --no-install-recommends \
             pkg-config g++ make \
             qt5-default qttools5-dev-tools
       - name: Run qmake
-        run: mkdir build && cd build &&
-          qmake -r .. "QMAKE_CXXFLAGS=-std=c++11 -Werror"
+        run: qmake -r "QMAKE_CXXFLAGS=-std=c++11 -Werror"
       - name: Build
-        run: cd build && make -j8
+        run: make -j8
 
   cmake:
-    name: "cmake on ${{ matrix.runner }}"
-    runs-on: "${{ matrix.runner }}"
+    name: "cmake on ${{ matrix.image }}"
+    runs-on: ubuntu-20.04
+    container:
+      image: "${{ matrix.image }}"
     strategy:
       matrix:
-        runner:
-          - "ubuntu-16.04"
-          - "ubuntu-18.04"
-          - "ubuntu-20.04"
+        image:
+          - "ubuntu:16.04"
+          - "ubuntu:18.04"
+          - "ubuntu:20.04"
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
       - uses: actions/checkout@v2
       - name: Install qt and build tools
         run: |
-          sudo apt-get update &&
-          sudo apt-get install -y --no-install-recommends \
+          apt-get update &&
+          apt-get install -y --no-install-recommends \
             pkg-config g++ make cmake \
             qt5-default qttools5-dev-tools
       - name: Show cmake version
         run: cmake --version
       - name: Run cmake
-        run: cmake -S . -B build
+        run: cmake -S .
       - name: Build
-        run: cmake --build build -j8 -v
+        run: VERBOSE=1 cmake --build .
