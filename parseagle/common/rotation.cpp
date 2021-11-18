@@ -5,15 +5,9 @@ namespace parseagle {
 
 Rotation::Rotation(const QString& str)
 {
-    if (!str.startsWith("R")) {
-        throw std::runtime_error("Invalid rotation: " + str.toStdString());
-    }
-
-    bool ok = false;
-    mAngle = str.mid(1, -1).toDouble(&ok);
-    if (!ok) {
-        throw std::runtime_error("Invalid rotation: " + str.toStdString());
-    }
+    mSpin = str.contains("S");
+    mMirror = str.contains("M");
+    mAngle = QString(str).remove("M").remove("S").remove("R").toDouble();
 }
 
 Rotation::~Rotation() noexcept
