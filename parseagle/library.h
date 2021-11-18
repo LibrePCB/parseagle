@@ -15,6 +15,7 @@ class Library final
         // Constructors / Destructor
         Library() = delete;
         explicit Library(const QString& filepath, QStringList* errors = nullptr);
+        explicit Library(const QByteArray& content, QStringList* errors = nullptr);
         ~Library() noexcept;
 
         // Getters
@@ -25,6 +26,9 @@ class Library final
 
 
     private:
+        void load(const QByteArray& content, QStringList* errors = nullptr);
+
+
         QString mDescription;
         QList<Symbol> mSymbols;
         QList<Package> mPackages;

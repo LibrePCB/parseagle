@@ -14,13 +14,25 @@ Library::Library(const QString& filepath, QStringList* errors)
         throw std::runtime_error("Cannot open file " + filepath.toStdString() +
                                  ": " + file.errorString().toStdString());
     }
+    load(file.readAll(), errors);
+}
 
+Library::Library(const QByteArray& content, QStringList* errors)
+{
+    load(content, errors);
+}
+
+Library::~Library() noexcept
+{
+}
+
+void Library::load(const QByteArray& content, QStringList* errors) {
     QDomDocument doc;
     doc.implementation().setInvalidDataPolicy(QDomImplementation::ReturnNullNode);
     QString errMsg;
-    if (!doc.setContent(file.readAll(), &errMsg)) {
-        throw std::runtime_error("Error while parsing file " + filepath.toStdString() +
-                                 ": " + errMsg.toStdString());
+    if (!doc.setContent(content, &errMsg)) {
+        throw std::runtime_error(
+            "Error while parsing EAGLE library: " + errMsg.toStdString());
     }
     DomElement root(doc.documentElement());
     DomElement drawing = root.getFirstChild("drawing");
@@ -63,10 +75,6 @@ Library::Library(const QString& filepath, QStringList* errors)
             }
         }
     }
-}
-
-Library::~Library() noexcept
-{
 }
 
 } // namespace parseagle
