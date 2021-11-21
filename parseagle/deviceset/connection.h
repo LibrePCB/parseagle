@@ -19,13 +19,13 @@ class Connection final
         // Getters
         QString getGate() const noexcept {return mGate;}
         QString getPin() const noexcept {return mPin;}
-        QString getPad() const noexcept {return mPad;}
+        QStringList getPads() const noexcept {return mPads;}
 
 
     private:
         QString mGate;
         QString mPin;
-        QString mPad;
+        QStringList mPads;
 };
 
 } // namespace parseagle

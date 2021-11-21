@@ -8,7 +8,7 @@ Connection::Connection(const DomElement& root)
 {
     mGate = root.getAttributeAsString("gate");
     mPin = root.getAttributeAsString("pin");
-    mPad = root.getAttributeAsString("pad");
+    mPads = root.getAttributeAsString("pad").split(" ");
 }
 
 Connection::~Connection() noexcept
