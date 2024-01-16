@@ -17,11 +17,15 @@ Symbol::Symbol(const DomElement& root, QStringList* errors)
         } else if (child.getTagName() == "circle") {
             mCircles.append(Circle(child));
         } else if (child.getTagName() == "polygon") {
-            mPolygons.append(Polygon(child));
+            mPolygons.append(Polygon(child, errors));
         } else if (child.getTagName() == "text") {
             mTexts.append(Text(child, errors));
         } else if (child.getTagName() == "pin") {
             mPins.append(Pin(child, errors));
+        } else if (child.getTagName() == "frame") {
+            mFrames.append(Frame(child));
+        } else if (child.getTagName() == "dimension") {
+            mDimensions.append(Dimension(child));
         } else if (errors) {
             errors->append("Unknown symbol child: " + child.getTagName());
         }

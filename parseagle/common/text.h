@@ -24,7 +24,9 @@ class Text final
 
         // Getters
         int getLayer() const noexcept {return mLayer;}
+        Font getFont() const noexcept {return mFont;}
         double getSize() const noexcept {return mSize;}
+        int getRatio() const noexcept {return mRatio;}
         const Point& getPosition() const noexcept {return mPosition;}
         const Rotation& getRotation() const noexcept {return mRotation;}
         Alignment getAlignment() const noexcept {return mAlignment;}
@@ -33,7 +35,9 @@ class Text final
 
     private:
         int mLayer;
+        Font mFont = Font::Proportional;
         double mSize;
+        int mRatio = 8;
         Point mPosition;
         Rotation mRotation;
         Alignment mAlignment = Alignment::BottomLeft;

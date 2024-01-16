@@ -19,6 +19,9 @@ ThtPad::ThtPad(const DomElement& root, QStringList* errors)
     if (root.hasAttribute("rot")) {
         mRotation = Rotation(root.getAttributeAsString("rot"));
     }
+    if (root.hasAttribute("stop")) {
+        mStop = root.getAttributeAsBool("stop");
+    }
 }
 
 ThtPad::~ThtPad() noexcept

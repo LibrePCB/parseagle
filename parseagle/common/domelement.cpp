@@ -35,6 +35,17 @@ QString DomElement::getAttributeAsString(const QString& name) const
     }
 }
 
+bool DomElement::getAttributeAsBool(const QString& name) const {
+  const QString value = getAttributeAsString(name);
+  if (value == "yes") {
+    return true;
+  } else if (value == "no") {
+    return false;
+  } else {
+    throw std::runtime_error("Invalid bool in attribute " + name.toStdString());
+  }
+}
+
 int DomElement::getAttributeAsInt(const QString& name) const
 {
     bool ok = false;

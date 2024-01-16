@@ -10,6 +10,9 @@ DeviceSet::DeviceSet(const DomElement& root, QStringList* errors)
     if (root.hasAttribute("prefix")) {
         mPrefix = root.getAttributeAsString("prefix");
     }
+    if (root.hasAttribute("uservalue")) {
+        mUserValue = root.getAttributeAsBool("uservalue");
+    }
     if (root.hasChild("description")) {
         mDescription = root.getFirstChild("description").getText();
     }

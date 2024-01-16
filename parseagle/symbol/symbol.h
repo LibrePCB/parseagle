@@ -7,6 +7,8 @@
 #include "../common/circle.h"
 #include "../common/polygon.h"
 #include "../common/text.h"
+#include "../common/frame.h"
+#include "../common/dimension.h"
 #include "pin.h"
 
 namespace parseagle {
@@ -31,6 +33,8 @@ class Symbol final
         const QList<Polygon>& getPolygons() const noexcept {return mPolygons;}
         const QList<Text>& getTexts() const noexcept {return mTexts;}
         const QList<Pin>& getPins() const noexcept {return mPins;}
+        const QList<Frame>& getFrames() const noexcept {return mFrames;}
+        const QList<Dimension>& getDimensions() const noexcept {return mDimensions;}
 
 
     private:
@@ -42,6 +46,8 @@ class Symbol final
         QList<Polygon> mPolygons;
         QList<Text> mTexts;
         QList<Pin> mPins;
+        QList<Frame> mFrames;
+        QList<Dimension> mDimensions;
 };
 
 } // namespace parseagle

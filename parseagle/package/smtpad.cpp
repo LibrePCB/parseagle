@@ -15,6 +15,15 @@ SmtPad::SmtPad(const DomElement& root)
     }
     mWidth = root.getAttributeAsDouble("dx");
     mHeight = root.getAttributeAsDouble("dy");
+    if (root.hasAttribute("roundness")) {
+        mRoundness = root.getAttributeAsInt("roundness");
+    }
+    if (root.hasAttribute("stop")) {
+        mStop = root.getAttributeAsBool("stop");
+    }
+    if (root.hasAttribute("cream")) {
+        mCream = root.getAttributeAsBool("cream");
+    }
 }
 
 SmtPad::~SmtPad() noexcept
