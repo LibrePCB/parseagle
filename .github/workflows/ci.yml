@@ -4,15 +4,15 @@ jobs:
 
   qmake:
     name: "qmake on ${{ matrix.image }}"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
       image: "${{ matrix.image }}"
     strategy:
       matrix:
-        image:
-          - "ubuntu:16.04"
-          - "ubuntu:18.04"
-          - "ubuntu:20.04"
+        include:
+          - {image: "ubuntu:18.04", qt: "qt5-default"}
+          - {image: "ubuntu:20.04", qt: "qt5-default"}
+          - {image: "ubuntu:22.04", qt: "qtbase5-dev"}
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -22,7 +22,7 @@ jobs:
           apt-get update &&
           apt-get install -y --no-install-recommends \
             pkg-config g++ make \
-            qt5-default qttools5-dev-tools
+            ${{ matrix.qt }} qttools5-dev-tools
       - name: Run qmake
         run: qmake -r "QMAKE_CXXFLAGS=-std=c++11 -Werror"
       - name: Build
@@ -30,15 +30,15 @@ jobs:
 
   cmake:
     name: "cmake on ${{ matrix.image }}"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
       image: "${{ matrix.image }}"
     strategy:
       matrix:
-        image:
-          - "ubuntu:16.04"
-          - "ubuntu:18.04"
-          - "ubuntu:20.04"
+        include:
+          - {image: "ubuntu:18.04", qt: "qt5-default"}
+          - {image: "ubuntu:20.04", qt: "qt5-default"}
+          - {image: "ubuntu:22.04", qt: "qtbase5-dev"}
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -48,7 +48,7 @@ jobs:
           apt-get update &&
           apt-get install -y --no-install-recommends \
             pkg-config g++ make cmake \
-            qt5-default qttools5-dev-tools
+            ${{ matrix.qt }} qttools5-dev-tools
       - name: Show cmake version
         run: cmake --version
       - name: Run cmake
