@@ -2,6 +2,7 @@
 #define PARSEAGLE_TEXT_H
 
 #include <QtCore>
+#include "../common/enums.h"
 #include "../common/point.h"
 #include "../common/rotation.h"
 
@@ -14,18 +15,7 @@ class Text final
     public:
 
         // Types
-        enum class Alignment {
-            Unknown,  // Failed to parse XML attribute.
-            BottomLeft,
-            BottomCenter,
-            BottomRight,
-            CenterLeft,
-            Center,
-            CenterRight,
-            TopLeft,
-            TopCenter,
-            TopRight,
-        };
+        using Alignment = parseagle::Alignment;  // [DEPRECATED] Backwards compatibility
 
         // Constructors / Destructor
         Text() = delete;
@@ -46,7 +36,7 @@ class Text final
         double mSize;
         Point mPosition;
         Rotation mRotation;
-        Alignment mAlignment;
+        Alignment mAlignment = Alignment::BottomLeft;
         QString mValue;
 };
 

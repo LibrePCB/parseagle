@@ -2,6 +2,7 @@
 #define PARSEAGLE_PIN_H
 
 #include <QtCore>
+#include "../common/enums.h"
 #include "../common/point.h"
 #include "../common/rotation.h"
 
@@ -14,13 +15,7 @@ class Pin final
     public:
 
         // Types
-        enum class Length {
-            Unknown,  // Failed to parse XML attribute.
-            Point,
-            Short,
-            Middle,
-            Long,
-        };
+        using Length = parseagle::PinLength;  // [DEPRECATED] Backwards compatibility
 
         // Constructors / Destructor
         Pin() = delete;
@@ -30,7 +25,7 @@ class Pin final
         // Getters
         QString getName() const noexcept {return mName;}
         const Point& getPosition() const noexcept {return mPosition;}
-        Length getLength() const noexcept {return mLength;}
+        PinLength getLength() const noexcept {return mLength;}
         double getLengthInMillimeters() const noexcept;
         const Rotation& getRotation() const noexcept {return mRotation;}
 
@@ -38,7 +33,7 @@ class Pin final
     private:
         QString mName;
         Point mPosition;
-        Length mLength;
+        PinLength mLength = PinLength::Long;
         Rotation mRotation;
 };
 

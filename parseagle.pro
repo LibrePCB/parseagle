@@ -39,6 +39,7 @@ SOURCES += \
 HEADERS += \
     parseagle/common/circle.h \
     parseagle/common/domelement.h \
+    parseagle/common/enums.h \
     parseagle/common/point.h \
     parseagle/common/polygon.h \
     parseagle/common/rectangle.h \
