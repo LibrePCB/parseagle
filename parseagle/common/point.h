@@ -6,6 +6,9 @@ namespace parseagle {
 struct Point {
     double x;
     double y;
+
+    bool operator==(const Point& rhs) const noexcept {return (x == rhs.x) && (y == rhs.y);}
+    bool operator!=(const Point& rhs) const noexcept {return !(*this == rhs);}
 };
 
 } // namespace parseagle
