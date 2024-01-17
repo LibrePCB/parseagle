@@ -24,7 +24,7 @@ class Vertex final
 
     private:
         Point mPosition;
-        double mCurve;
+        double mCurve = 0;
 };
 
 } // namespace parseagle

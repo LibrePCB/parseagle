@@ -35,7 +35,7 @@ class ThtPad final
         QString mName;
         Point mPosition;
         double mDrillDiameter;
-        double mOuterDiameter;
+        double mOuterDiameter = 0;
         PadShape mShape = PadShape::Round;
         Rotation mRotation;
 };

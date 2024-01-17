@@ -30,7 +30,7 @@ class Wire final
         double mWidth;
         Point mP1;
         Point mP2;
-        double mCurve;
+        double mCurve = 0;
 };
 
 } // namespace parseagle

@@ -10,13 +10,9 @@ ThtPad::ThtPad(const DomElement& root, QStringList* errors)
     mPosition.x = root.getAttributeAsDouble("x");
     mPosition.y = root.getAttributeAsDouble("y");
     mDrillDiameter = root.getAttributeAsDouble("drill");
-
     if (root.hasAttribute("diameter")) {
         mOuterDiameter = root.getAttributeAsDouble("diameter");
-    } else {
-        mOuterDiameter = 0.0;
     }
-
     if (root.hasAttribute("shape")) {
         mShape = parsePadShape(root.getAttributeAsString("shape"), errors);
     }

@@ -12,11 +12,8 @@ Wire::Wire(const DomElement& root)
     mP1.y = root.getAttributeAsDouble("y1");
     mP2.x = root.getAttributeAsDouble("x2");
     mP2.y = root.getAttributeAsDouble("y2");
-
     if (root.hasAttribute("curve")) {
         mCurve = root.getAttributeAsDouble("curve");
-    } else {
-        mCurve = 0.0;
     }
 }
 
