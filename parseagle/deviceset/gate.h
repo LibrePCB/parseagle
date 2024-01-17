@@ -2,6 +2,7 @@
 #define PARSEAGLE_GATE_H
 
 #include <QtCore>
+#include "../common/enums.h"
 #include "../common/point.h"
 
 namespace parseagle {
@@ -13,14 +14,7 @@ class Gate final
     public:
 
         // Types
-        enum class AddLevel {
-            Unknown,  // Failed to parse XML attribute.
-            Must,
-            Can,
-            Next,
-            Request,
-            Always,
-        };
+        using AddLevel = parseagle::GateAddLevel;  // [DEPRECATED] Backwards compatibility
 
         // Constructors / Destructor
         Gate() = delete;
@@ -31,14 +25,14 @@ class Gate final
         QString getName() const noexcept {return mName;}
         QString getSymbol() const noexcept {return mSymbol;}
         const Point& getPosition() const noexcept {return mPosition;}
-        AddLevel getAddLevel() const noexcept {return mAddLevel;}
+        GateAddLevel getAddLevel() const noexcept {return mAddLevel;}
 
 
     private:
         QString mName;
         QString mSymbol;
         Point mPosition;
-        AddLevel mAddLevel;
+        GateAddLevel mAddLevel = GateAddLevel::Next;
 };
 
 } // namespace parseagle

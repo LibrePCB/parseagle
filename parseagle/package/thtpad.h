@@ -2,6 +2,7 @@
 #define PARSEAGLE_THTPAD_H
 
 #include <QtCore>
+#include "../common/enums.h"
 #include "../common/point.h"
 #include "../common/rotation.h"
 
@@ -14,14 +15,7 @@ class ThtPad final
     public:
 
         // Types
-        enum class Shape {
-            Unknown,  // Failed to parse XML attribute.
-            Square,
-            Octagon,
-            Round,
-            Long,
-            Offset,
-        };
+        using Shape = parseagle::PadShape;  // [DEPRECATED] Backwards compatibility
 
         // Constructors / Destructor
         ThtPad() = delete;
@@ -33,7 +27,7 @@ class ThtPad final
         const Point& getPosition() const noexcept {return mPosition;}
         double getDrillDiameter() const noexcept {return mDrillDiameter;}
         double getOuterDiameter() const noexcept {return mOuterDiameter;}
-        Shape getShape() const noexcept {return mShape;}
+        PadShape getShape() const noexcept {return mShape;}
         const Rotation& getRotation() const noexcept {return mRotation;}
 
 
@@ -42,7 +36,7 @@ class ThtPad final
         Point mPosition;
         double mDrillDiameter;
         double mOuterDiameter;
-        Shape mShape;
+        PadShape mShape = PadShape::Round;
         Rotation mRotation;
 };
 
