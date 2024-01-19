@@ -21,6 +21,7 @@ class DomElement final
         const QString& getText() const noexcept {return mText;}
         bool hasAttribute(const QString& name) const noexcept {return mAttributes.contains(name);}
         QString getAttributeAsString(const QString& name) const;
+        bool getAttributeAsBool(const QString& name) const;
         int getAttributeAsInt(const QString& name) const;
         double getAttributeAsDouble(const QString& name) const;
         bool hasChild(const QString& tagName = QString()) const noexcept;

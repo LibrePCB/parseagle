@@ -17,7 +17,7 @@ Package::Package(const DomElement& root, QStringList* errors)
         } else if (child.getTagName() == "circle") {
             mCircles.append(Circle(child));
         } else if (child.getTagName() == "polygon") {
-            mPolygons.append(Polygon(child));
+            mPolygons.append(Polygon(child, errors));
         } else if (child.getTagName() == "text") {
             mTexts.append(Text(child, errors));
         } else if (child.getTagName() == "hole") {
@@ -26,6 +26,8 @@ Package::Package(const DomElement& root, QStringList* errors)
             mThtPads.append(ThtPad(child, errors));
         } else if (child.getTagName() == "smd") {
             mSmtPads.append(SmtPad(child));
+        } else if (child.getTagName() == "dimension") {
+            mDimensions.append(Dimension(child));
         } else if (errors) {
             errors->append("Unknown package child: " + child.getTagName());
         }

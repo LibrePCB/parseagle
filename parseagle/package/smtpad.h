@@ -25,6 +25,9 @@ class SmtPad final
         const Rotation& getRotation() const noexcept {return mRotation;}
         double getWidth() const noexcept {return mWidth;}
         double getHeight() const noexcept {return mHeight;}
+        int getRoundness() const noexcept {return mRoundness;}
+        bool getStop() const noexcept {return mStop;}
+        bool getCream() const noexcept {return mCream;}
 
 
     private:
@@ -34,6 +37,9 @@ class SmtPad final
         Rotation mRotation;
         double mWidth;
         double mHeight;
+        int mRoundness = 0;
+        bool mStop = true;
+        bool mCream = true;
 };
 
 } // namespace parseagle

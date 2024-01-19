@@ -29,6 +29,7 @@ class ThtPad final
         double getOuterDiameter() const noexcept {return mOuterDiameter;}
         PadShape getShape() const noexcept {return mShape;}
         const Rotation& getRotation() const noexcept {return mRotation;}
+        bool getStop() const noexcept {return mStop;}
 
 
     private:
@@ -38,6 +39,7 @@ class ThtPad final
         double mOuterDiameter = 0;
         PadShape mShape = PadShape::Round;
         Rotation mRotation;
+        bool mStop = true;
 };
 
 } // namespace parseagle

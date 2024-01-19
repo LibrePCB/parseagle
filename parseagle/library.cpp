@@ -22,11 +22,17 @@ Library::Library(const QByteArray& content, QStringList* errors)
     load(content, errors);
 }
 
+Library::Library(const DomElement& root, QStringList* errors)
+{
+  load(root, errors);
+}
+
 Library::~Library() noexcept
 {
 }
 
-void Library::load(const QByteArray& content, QStringList* errors) {
+void Library::load(const QByteArray& content, QStringList* errors)
+{
     QDomDocument doc;
     doc.implementation().setInvalidDataPolicy(QDomImplementation::ReturnNullNode);
     QString errMsg;
@@ -37,13 +43,22 @@ void Library::load(const QByteArray& content, QStringList* errors) {
     DomElement root(doc.documentElement());
     DomElement drawing = root.getFirstChild("drawing");
     DomElement library = drawing.getFirstChild("library");
+    load(library, errors);
+}
 
-    if (library.hasChild("description")) {
-        mDescription = library.getFirstChild("description").getText();
+void Library::load(const DomElement& root, QStringList* errors)
+{
+    if (root.hasAttribute("name")) {
+        mEmbeddedName = root.getAttributeAsString("name");
     }
-
-    if (library.hasChild("symbols")) {
-        foreach (const DomElement& child, library.getFirstChild("symbols").getChilds()) {
+    if (root.hasAttribute("urn")) {
+        mEmbeddedUrn = root.getAttributeAsString("urn");
+    }
+    if (root.hasChild("description")) {
+        mDescription = root.getFirstChild("description").getText();
+    }
+    if (root.hasChild("symbols")) {
+        foreach (const DomElement& child, root.getFirstChild("symbols").getChilds()) {
             try {
                 mSymbols.append(Symbol(child, errors));
             } catch (const std::exception& e) {
@@ -53,8 +68,8 @@ void Library::load(const QByteArray& content, QStringList* errors) {
             }
         }
     }
-    if (library.hasChild("packages")) {
-        foreach (const DomElement& child, library.getFirstChild("packages").getChilds()) {
+    if (root.hasChild("packages")) {
+        foreach (const DomElement& child, root.getFirstChild("packages").getChilds()) {
             try {
                 mPackages.append(Package(child, errors));
             } catch (const std::exception& e) {
@@ -64,8 +79,8 @@ void Library::load(const QByteArray& content, QStringList* errors) {
             }
         }
     }
-    if (library.hasChild("devicesets")) {
-        foreach (const DomElement& child, library.getFirstChild("devicesets").getChilds()) {
+    if (root.hasChild("devicesets")) {
+        foreach (const DomElement& child, root.getFirstChild("devicesets").getChilds()) {
             try {
                 mDeviceSets.append(DeviceSet(child, errors));
             } catch (const std::exception& e) {

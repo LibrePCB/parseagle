@@ -22,6 +22,7 @@ class DeviceSet final
         QString getName() const noexcept {return mName;}
         QString getDescription() const noexcept {return mDescription;}
         QString getPrefix() const noexcept {return mPrefix;}
+        bool getUserValue() const noexcept {return mUserValue;}
         const QList<Gate>& getGates() const noexcept {return mGates;}
         const QList<Device>& getDevices() const noexcept {return mDevices;}
 
@@ -30,6 +31,7 @@ class DeviceSet final
         QString mName;
         QString mDescription;
         QString mPrefix;
+        bool mUserValue = false;
         QList<Gate> mGates;
         QList<Device> mDevices;
 };

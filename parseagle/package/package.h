@@ -7,6 +7,7 @@
 #include "../common/circle.h"
 #include "../common/polygon.h"
 #include "../common/text.h"
+#include "../common/dimension.h"
 #include "hole.h"
 #include "thtpad.h"
 #include "smtpad.h"
@@ -35,6 +36,7 @@ class Package final
         const QList<Hole>& getHoles() const noexcept {return mHoles;}
         const QList<ThtPad>& getThtPads() const noexcept {return mThtPads;}
         const QList<SmtPad>& getSmtPads() const noexcept {return mSmtPads;}
+        const QList<Dimension>& getDimensions() const noexcept {return mDimensions;}
 
 
     private:
@@ -48,6 +50,7 @@ class Package final
         QList<Hole> mHoles;
         QList<ThtPad> mThtPads;
         QList<SmtPad> mSmtPads;
+        QList<Dimension> mDimensions;
 };
 
 } // namespace parseagle
