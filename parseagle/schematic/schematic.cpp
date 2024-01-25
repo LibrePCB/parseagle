@@ -57,7 +57,7 @@ void Schematic::load(const QByteArray& content, QStringList* errors) {
     }
     if (schematic.hasChild("parts")) {
         foreach (const DomElement& child, schematic.getFirstChild("parts").getChilds()) {
-            mParts.append(Part(child));
+            mParts.append(Part(child, errors));
         }
     }
     if (schematic.hasChild("sheets")) {

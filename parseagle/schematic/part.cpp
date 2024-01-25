@@ -4,7 +4,7 @@
 
 namespace parseagle {
 
-Part::Part(const DomElement& root)
+Part::Part(const DomElement& root, QStringList* errors)
 {
     mName = root.getAttributeAsString("name");
     mLibrary = root.getAttributeAsString("library");
@@ -18,6 +18,13 @@ Part::Part(const DomElement& root)
     }
     if (root.hasAttribute("value")) {
         mValue = root.getAttributeAsString("value");
+    }
+    foreach (const DomElement& child, root.getChilds()) {
+        if (child.getTagName() == "attribute") {
+            mAttributes.append(Attribute(child, errors));
+        } else  if (errors) {
+            errors->append("Unknown part child: " + child.getTagName());
+        }
     }
 }
 

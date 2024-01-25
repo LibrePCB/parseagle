@@ -2,6 +2,7 @@
 #define PARSEAGLE_PART_H
 
 #include <QtCore>
+#include "../common/attribute.h"
 
 namespace parseagle {
 
@@ -13,7 +14,7 @@ class Part final
 
         // Constructors / Destructor
         Part() = delete;
-        explicit Part(const DomElement& root);
+        explicit Part(const DomElement& root, QStringList* errors = nullptr);
         ~Part() noexcept;
 
         // Getters
@@ -24,6 +25,7 @@ class Part final
         const QString& getDevice() const noexcept {return mDevice;}
         const QString& getTechnology() const noexcept {return mTechnology;}
         const QString& getValue() const noexcept {return mValue;}
+        const QList<Attribute>& getAttributes() const noexcept {return mAttributes;}
 
 
     private:
@@ -34,6 +36,7 @@ class Part final
         QString mDevice;
         QString mTechnology;
         QString mValue;
+        QList<Attribute> mAttributes;
 };
 
 } // namespace parseagle
