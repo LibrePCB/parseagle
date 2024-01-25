@@ -6,7 +6,12 @@ namespace parseagle {
 
 DesignRules::DesignRules(const DomElement& root, QStringList* errors)
 {
-    mName = root.getAttributeAsString("name");
+    // Note: Although the EAGLE DTD files specify the "name" attribute as
+    // required, there seem to be EAGLE boards without this attribute and
+    // EAGLE opens them anyway. So we have to support this case too.
+    if (root.hasAttribute("name")) {
+        mName = root.getAttributeAsString("name");
+    }
     foreach (const DomElement& child, root.getChilds()) {
         if (child.getTagName() == "description") {
             mDescription = child.getText();
