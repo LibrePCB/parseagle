@@ -31,7 +31,9 @@ QString DomElement::getAttributeAsString(const QString& name) const
     if (mAttributes.contains(name)) {
         return mAttributes.value(name);
     } else {
-        throw std::runtime_error("Attribute not found: " + name.toStdString());
+        throw std::runtime_error(
+            QString("Attribute '%1' not found in XML element '%2'.")
+            .arg(name).arg(mName).toStdString());
     }
 }
 
