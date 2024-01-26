@@ -23,7 +23,7 @@ DeviceSet::DeviceSet(const DomElement& root, QStringList* errors)
     }
     if (root.hasChild("devices")) {
         foreach (const DomElement& child, root.getFirstChild("devices").getChilds()) {
-            mDevices.append(Device(child));
+            mDevices.append(Device(child, errors));
         }
     }
 }
