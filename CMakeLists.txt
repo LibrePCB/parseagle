@@ -43,6 +43,7 @@ add_library(parseagle STATIC
     parseagle/deviceset/device.cpp
     parseagle/deviceset/deviceset.cpp
     parseagle/deviceset/gate.cpp
+    parseagle/deviceset/technology.cpp
     parseagle/library.cpp
     parseagle/package/hole.cpp
     parseagle/package/package.cpp
@@ -87,6 +88,7 @@ add_library(parseagle STATIC
     parseagle/deviceset/device.h
     parseagle/deviceset/deviceset.h
     parseagle/deviceset/gate.h
+    parseagle/deviceset/technology.h
     parseagle/library.h
     parseagle/package/hole.h
     parseagle/package/package.h
