@@ -16,7 +16,7 @@ Signal::Signal(const DomElement& root, QStringList* errors)
         } else if (child.getTagName() == "polygon") {
             mPolygons.append(Polygon(child, errors));
         } else if (child.getTagName() == "wire") {
-            mWires.append(Wire(child));
+            mWires.append(Wire(child, errors));
         } else if (child.getTagName() == "via") {
             mVias.append(Via(child));
         } else if (errors) {

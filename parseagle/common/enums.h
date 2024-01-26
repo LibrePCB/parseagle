@@ -351,6 +351,50 @@ inline ViaShape parseViaShape(const QString& s, QStringList* errors = nullptr)
     return ViaShape::Unknown;
 }
 
+enum class WireCap
+{
+    Unknown,  // Failed to parse XML attribute.
+    Flat,
+    Round,
+};
+
+inline WireCap parseWireCap(const QString& s, QStringList* errors = nullptr)
+{
+    if (s == "flat") {
+        return WireCap::Flat;
+    } else if (s == "round") {
+        return WireCap::Round;
+    } else if (errors) {
+        errors->append("Unknown wire cap: " + s);
+    }
+    return WireCap::Unknown;
+}
+
+enum class WireStyle
+{
+    Unknown,  // Failed to parse XML attribute.
+    Continuous,
+    LongDash,
+    ShortDash,
+    DashDot,
+};
+
+inline WireStyle parseWireStyle(const QString& s, QStringList* errors = nullptr)
+{
+    if (s == "continuous") {
+        return WireStyle::Continuous;
+    } else if (s == "longdash") {
+        return WireStyle::LongDash;
+    } else if (s == "shortdash") {
+        return WireStyle::ShortDash;
+    } else if (s == "dashdot") {
+        return WireStyle::DashDot;
+    } else if (errors) {
+        errors->append("Unknown wire style: " + s);
+    }
+    return WireStyle::Unknown;
+}
+
 } // namespace parseagle
 
 #endif // PARSEAGLE_ENUMS_H
