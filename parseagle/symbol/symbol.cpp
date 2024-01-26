@@ -11,7 +11,7 @@ Symbol::Symbol(const DomElement& root, QStringList* errors)
         if (child.getTagName() == "description") {
             mDescription = child.getText();
         } else if (child.getTagName() == "wire") {
-            mWires.append(Wire(child));
+            mWires.append(Wire(child, errors));
         } else if (child.getTagName() == "rectangle") {
             mRectangles.append(Rectangle(child));
         } else if (child.getTagName() == "circle") {

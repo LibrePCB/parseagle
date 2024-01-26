@@ -12,7 +12,7 @@ Sheet::Sheet(const DomElement& root, QStringList* errors)
         } else if (child.getTagName() == "plain") {
             foreach (const DomElement& plainChild, child.getChilds()) {
                 if (plainChild.getTagName() == "wire") {
-                    mWires.append(Wire(plainChild));
+                    mWires.append(Wire(plainChild, errors));
                 } else if (plainChild.getTagName() == "rectangle") {
                     mRectangles.append(Rectangle(plainChild));
                 } else if (plainChild.getTagName() == "circle") {

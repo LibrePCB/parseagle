@@ -54,7 +54,7 @@ void Board::load(const QByteArray& content, QStringList* errors)
     if (board.hasChild("plain")) {
         foreach (const DomElement& child, board.getFirstChild("plain").getChilds()) {
             if (child.getTagName() == "wire") {
-                mWires.append(Wire(child));
+                mWires.append(Wire(child, errors));
             } else if (child.getTagName() == "rectangle") {
                 mRectangles.append(Rectangle(child));
             } else if (child.getTagName() == "circle") {
