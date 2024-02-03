@@ -15,7 +15,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Find required Qt packages
-find_package(Qt5 5.2.0 COMPONENTS Core Xml REQUIRED)
+find_package(Qt 5.2.0 NAMES Qt6 Qt5 COMPONENTS Core Xml REQUIRED)
+find_package(Qt${Qt_VERSION_MAJOR} COMPONENTS Core Xml REQUIRED)
 
 # Export library
 add_library(parseagle STATIC
@@ -109,8 +110,8 @@ add_library(parseagle STATIC
 )
 target_link_libraries(parseagle
     # Qt
-    Qt5::Core
-    Qt5::Xml
+    Qt${Qt_VERSION_MAJOR}::Core
+    Qt${Qt_VERSION_MAJOR}::Xml
 )
 target_include_directories(parseagle INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 
