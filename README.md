@@ -4,7 +4,7 @@ This is a C++/Qt library for parsing XML files created by EAGLE.
 
 ## Build Systems
 
-The library provides both support for qmake and cmake.
+The library provides both support for qmake (Qt5) and cmake (Qt5/Qt6).
 
 ## Error Handling
 

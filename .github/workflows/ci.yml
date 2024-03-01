@@ -3,16 +3,15 @@ on: [push, pull_request]
 jobs:
 
   qmake:
-    name: "qmake on ${{ matrix.image }}"
+    name: "qmake on ${{ matrix.container }}"
     runs-on: ubuntu-22.04
-    container:
-      image: "${{ matrix.image }}"
+    container: "${{ matrix.container }}"
     strategy:
       matrix:
         include:
-          - {image: "ubuntu:18.04", qt: "qt5-default"}
-          - {image: "ubuntu:20.04", qt: "qt5-default"}
-          - {image: "ubuntu:22.04", qt: "qtbase5-dev"}
+          - {container: "ubuntu:18.04", packages: "qt5-default qttools5-dev-tools"}
+          - {container: "ubuntu:20.04", packages: "qt5-default qttools5-dev-tools"}
+          - {container: "ubuntu:22.04", packages: "qtbase5-dev qttools5-dev-tools"}
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -21,24 +20,42 @@ jobs:
         run: |
           apt-get update &&
           apt-get install -y --no-install-recommends \
-            pkg-config g++ make \
-            ${{ matrix.qt }} qttools5-dev-tools
+            pkg-config g++ make ${{ matrix.packages }}
       - name: Run qmake
         run: qmake -r "QMAKE_CXXFLAGS=-std=c++11 -Werror"
       - name: Build
         run: make -j8
 
   cmake:
-    name: "cmake on ${{ matrix.image }}"
+    name: "cmake/${{ matrix.qt }} on ${{ matrix.container }}"
     runs-on: ubuntu-22.04
-    container:
-      image: "${{ matrix.image }}"
+    container: "${{ matrix.container }}"
     strategy:
       matrix:
         include:
-          - {image: "ubuntu:18.04", qt: "qt5-default"}
-          - {image: "ubuntu:20.04", qt: "qt5-default"}
-          - {image: "ubuntu:22.04", qt: "qtbase5-dev"}
+          - qt: qt5
+            container: "ubuntu:18.04"
+            packages: qt5-default qttools5-dev-tools
+          - qt: qt5
+            container: "ubuntu:20.04"
+            packages: qt5-default qttools5-dev-tools
+          - qt: qt5
+            container: "ubuntu:22.04"
+            packages: qtbase5-dev qttools5-dev-tools
+          - qt: qt6
+            container: "ubuntu:22.04"
+            packages: qt6-base-dev qt6-base-dev-tools
+          - qt: qt5-implicit
+            container: "ubuntu:22.04"
+            packages: qtbase5-dev qttools5-dev-tools qt6-base-dev qt6-base-dev-tools
+          - qt: qt5-explicit
+            container: "ubuntu:22.04"
+            packages: qtbase5-dev qttools5-dev-tools qt6-base-dev qt6-base-dev-tools
+            cmake_flags: "-DPARSEAGLE_QT_MAJOR_VERSION=5"
+          - qt: qt6-explicit
+            container: "ubuntu:22.04"
+            packages: qtbase5-dev qttools5-dev-tools qt6-base-dev qt6-base-dev-tools
+            cmake_flags: "-DPARSEAGLE_QT_MAJOR_VERSION=6"
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -47,11 +64,10 @@ jobs:
         run: |
           apt-get update &&
           apt-get install -y --no-install-recommends \
-            pkg-config g++ make cmake \
-            ${{ matrix.qt }} qttools5-dev-tools
+            pkg-config g++ make cmake ${{ matrix.packages }}
       - name: Show cmake version
         run: cmake --version
       - name: Run cmake
-        run: cmake -S .
+        run: cmake -S . ${{ matrix.cmake_flags }}
       - name: Build
         run: VERBOSE=1 cmake --build .
