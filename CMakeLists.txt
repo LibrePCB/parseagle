@@ -9,13 +9,25 @@ project(parseagle
     VERSION 0.2.0
     LANGUAGES CXX)
 
-# Use C++11
-set(CMAKE_CXX_STANDARD 11)
+# If Qt version is not explicitly specified, automatically determine it
+if(NOT PARSEAGLE_QT_MAJOR_VERSION)
+    find_package(Qt NAMES Qt5 Qt6 REQUIRED COMPONENTS Core Xml)
+    set(PARSEAGLE_QT_MAJOR_VERSION ${Qt_VERSION_MAJOR})
+endif()
+set(PARSEAGLE_QT "Qt${PARSEAGLE_QT_MAJOR_VERSION}")
+
+# Use C++11 (Qt5) or C++17 (Qt6)
+if(PARSEAGLE_QT_MAJOR_VERSION EQUAL 6)
+    set(CMAKE_CXX_STANDARD 17)
+else()
+    set(CMAKE_CXX_STANDARD 11)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Find required Qt packages
-find_package(Qt5 5.2.0 COMPONENTS Core Xml REQUIRED)
+find_package(${PARSEAGLE_QT} REQUIRED COMPONENTS Core Xml)
+message(STATUS "Building parseagle with Qt ${${PARSEAGLE_QT}_VERSION}")
 
 # Export library
 add_library(parseagle STATIC
@@ -109,8 +121,8 @@ add_library(parseagle STATIC
 )
 target_link_libraries(parseagle
     # Qt
-    Qt5::Core
-    Qt5::Xml
+    ${PARSEAGLE_QT}::Core
+    ${PARSEAGLE_QT}::Xml
 )
 target_include_directories(parseagle INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 
