@@ -119,6 +119,9 @@ add_library(parseagle STATIC
     parseagle/symbol/pin.h
     parseagle/symbol/symbol.h
 )
+if (MSVC)
+  target_compile_options(parseagle PUBLIC /Zc:__cplusplus /permissive-)
+endif()
 target_link_libraries(parseagle
     # Qt
     ${PARSEAGLE_QT}::Core
