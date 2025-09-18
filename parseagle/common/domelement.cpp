@@ -1,13 +1,10 @@
 #include <QtCore>
-#include <optional>
 #include "domelement.h"
 
 namespace parseagle {
 
 DomElement::DomElement(QXmlStreamReader& reader)
 {
-    Q_ASSERT(reader.isStartElement());
-
     mName = reader.name().toString();
     for (const QXmlStreamAttribute& attr : reader.attributes()) {
         mAttributes.insert(attr.name().toString(), attr.value().toString());
@@ -23,6 +20,11 @@ DomElement::DomElement(QXmlStreamReader& reader)
             break;
         }
     }
+
+    if (reader.hasError()) {
+        const QString err = "Failed to parse XML: " + reader.errorString();
+        throw std::runtime_error(err.toStdString());
+    }
 }
 
 DomElement::~DomElement() noexcept
@@ -31,18 +33,22 @@ DomElement::~DomElement() noexcept
 
 DomElement DomElement::parse(QXmlStreamReader& reader)
 {
-    std::optional<DomElement> root;
     while (!reader.atEnd()) {
         reader.readNext();
         if (reader.isStartElement()) {
-            root = DomElement(reader);
+            break;
         }
     }
-    if ((!root) || reader.hasError()) {
-        const QString err = "Failed to parse XML: " + reader.errorString();
+    if (reader.hasError() || (!reader.isStartElement())) {
+        const QString err = "Failed to find XML root element: " + reader.errorString();
         throw std::runtime_error(err.toStdString());
     }
-    return *root;
+    const DomElement root(reader);
+    if (reader.hasError() || (!reader.isEndElement())) {
+        const QString err = "XML file seems incomplete: " + reader.errorString();
+        throw std::runtime_error(err.toStdString());
+    }
+    return root;
 }
 
 DomElement DomElement::parse(const QString& data)
