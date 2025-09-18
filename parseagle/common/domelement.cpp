@@ -1,4 +1,5 @@
 #include <QtCore>
+#include <optional>
 #include "domelement.h"
 
 namespace parseagle {
