@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <QtCore>
-#include <QtXml/QtXml>
 
 namespace parseagle {
 
@@ -13,8 +12,12 @@ class DomElement final
 
         // Constructors / Destructor
         DomElement() = delete;
-        explicit DomElement(const QDomElement& root);
         ~DomElement() noexcept;
+
+        // Parsers
+        static DomElement parse(QXmlStreamReader& reader);
+        static DomElement parse(const QString& data);
+        static DomElement parse(const QByteArray& data);
 
         // Getters
         const QString& getTagName() const noexcept {return mName;}
@@ -30,6 +33,8 @@ class DomElement final
 
 
     private:
+        explicit DomElement(QXmlStreamReader& reader);
+
         QString mName;
         QString mText;
         QHash<QString, QString> mAttributes;

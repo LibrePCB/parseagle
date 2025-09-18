@@ -11,7 +11,7 @@ project(parseagle
 
 # If Qt version is not explicitly specified, automatically determine it
 if(NOT PARSEAGLE_QT_MAJOR_VERSION)
-    find_package(Qt NAMES Qt5 Qt6 REQUIRED COMPONENTS Core Xml)
+    find_package(Qt NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
     set(PARSEAGLE_QT_MAJOR_VERSION ${Qt_VERSION_MAJOR})
 endif()
 set(PARSEAGLE_QT "Qt${PARSEAGLE_QT_MAJOR_VERSION}")
@@ -26,7 +26,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Find required Qt packages
-find_package(${PARSEAGLE_QT} REQUIRED COMPONENTS Core Xml)
+find_package(${PARSEAGLE_QT} REQUIRED COMPONENTS Core)
 message(STATUS "Building parseagle with Qt ${${PARSEAGLE_QT}_VERSION}")
 
 # Export library
@@ -119,11 +119,7 @@ add_library(parseagle STATIC
     parseagle/symbol/pin.h
     parseagle/symbol/symbol.h
 )
-target_link_libraries(parseagle
-    # Qt
-    ${PARSEAGLE_QT}::Core
-    ${PARSEAGLE_QT}::Xml
-)
+target_link_libraries(parseagle ${PARSEAGLE_QT}::Core)
 target_include_directories(parseagle INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Alias to namespaced variant
