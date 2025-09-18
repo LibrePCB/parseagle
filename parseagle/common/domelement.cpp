@@ -3,27 +3,66 @@
 
 namespace parseagle {
 
-DomElement::DomElement(const QDomElement& root)
+DomElement::DomElement(QXmlStreamReader& reader)
 {
-    if (root.isNull()) {
-        throw std::runtime_error("Invalid XML node!");
+    mName = reader.name().toString();
+    for (const QXmlStreamAttribute& attr : reader.attributes()) {
+        mAttributes.insert(attr.name().toString(), attr.value().toString());
     }
 
-    mName = root.tagName();
-    mText = root.text();
-
-    QDomNamedNodeMap map = root.attributes();
-    for (int i = 0; i < map.count(); i++) {
-        mAttributes.insert(map.item(i).nodeName(), map.item(i).nodeValue());
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (reader.isCharacters()) {
+            mText.append(reader.text().toString());
+        } else if (reader.isStartElement()) {
+            mChilds.append(DomElement(reader));
+        } else if (reader.isEndElement()) {
+            break;
+        }
     }
 
-    for (QDomElement c = root.firstChildElement(); !c.isNull(); c = c.nextSiblingElement()) {
-        mChilds.append(DomElement(c));
+    if (reader.hasError()) {
+        const QString err = "Failed to parse XML: " + reader.errorString();
+        throw std::runtime_error(err.toStdString());
     }
 }
 
 DomElement::~DomElement() noexcept
 {
+}
+
+DomElement DomElement::parse(QXmlStreamReader& reader)
+{
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (reader.isStartElement()) {
+            break;
+        }
+    }
+    if (reader.hasError() || (!reader.isStartElement())) {
+        const QString err = "Failed to find XML root element: " + reader.errorString();
+        throw std::runtime_error(err.toStdString());
+    }
+    const DomElement root(reader);
+    if (reader.hasError() || (!reader.isEndElement())) {
+        const QString err = "XML file seems incomplete: " + reader.errorString();
+        throw std::runtime_error(err.toStdString());
+    }
+    return root;
+}
+
+DomElement DomElement::parse(const QString& data)
+{
+    QXmlStreamReader reader;
+    reader.addData(data);
+    return parse(reader);
+}
+
+DomElement DomElement::parse(const QByteArray& data)
+{
+    QXmlStreamReader reader;
+    reader.addData(data);
+    return parse(reader);
 }
 
 QString DomElement::getAttributeAsString(const QString& name) const
@@ -37,7 +76,8 @@ QString DomElement::getAttributeAsString(const QString& name) const
     }
 }
 
-bool DomElement::getAttributeAsBool(const QString& name) const {
+bool DomElement::getAttributeAsBool(const QString& name) const
+{
   const QString value = getAttributeAsString(name);
   if (value == "yes") {
     return true;
