@@ -33,16 +33,9 @@ Library::~Library() noexcept
 
 void Library::load(const QByteArray& content, QStringList* errors)
 {
-    QDomDocument doc;
-    doc.implementation().setInvalidDataPolicy(QDomImplementation::ReturnNullNode);
-    QString errMsg;
-    if (!doc.setContent(content, &errMsg)) {
-        throw std::runtime_error(
-            "Error while parsing EAGLE library: " + errMsg.toStdString());
-    }
-    DomElement root(doc.documentElement());
-    DomElement drawing = root.getFirstChild("drawing");
-    DomElement library = drawing.getFirstChild("library");
+    const DomElement root = DomElement::parse(content);
+    const DomElement drawing = root.getFirstChild("drawing");
+    const DomElement library = drawing.getFirstChild("library");
     load(library, errors);
 }
 
