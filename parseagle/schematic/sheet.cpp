@@ -35,7 +35,7 @@ Sheet::Sheet(const DomElement& root, QStringList* errors)
             }
         } else if (child.getTagName() == "busses") {
             foreach (const DomElement& busChild, child.getChilds()) {
-                mBuses.append(Bus(busChild));
+                mBuses.append(Bus(busChild, errors));
             }
         } else if (child.getTagName() == "nets") {
             foreach (const DomElement& netChild, child.getChilds()) {
