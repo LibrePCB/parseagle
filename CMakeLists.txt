@@ -6,7 +6,7 @@ endif()
 
 # Define project
 project(parseagle
-    VERSION 0.3.1
+    VERSION 0.4.0
     LANGUAGES CXX)
 
 # If Qt version is not explicitly specified, automatically determine it
