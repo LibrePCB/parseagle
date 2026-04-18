@@ -4,14 +4,14 @@ jobs:
 
   qmake:
     name: "qmake on ${{ matrix.container }}"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     container: "${{ matrix.container }}"
     strategy:
       matrix:
         include:
-          - {container: "ubuntu:20.04", packages: "qt5-default qttools5-dev-tools"}
           - {container: "ubuntu:22.04", packages: "qtbase5-dev qttools5-dev-tools"}
           - {container: "ubuntu:24.04", packages: "qtbase5-dev qttools5-dev-tools"}
+          - {container: "ubuntu:26.04", packages: "qtbase5-dev qttools5-dev-tools"}
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -28,25 +28,28 @@ jobs:
 
   cmake:
     name: "cmake/${{ matrix.qt }} on ${{ matrix.container }}"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     container: "${{ matrix.container }}"
     strategy:
       matrix:
         include:
           - qt: qt5
-            container: "ubuntu:20.04"
-            packages: qt5-default qttools5-dev-tools
-          - qt: qt5
             container: "ubuntu:22.04"
             packages: qtbase5-dev qttools5-dev-tools
           - qt: qt5
             container: "ubuntu:24.04"
+            packages: qtbase5-dev qttools5-dev-tools
+          - qt: qt5
+            container: "ubuntu:26.04"
             packages: qtbase5-dev qttools5-dev-tools
           - qt: qt6
             container: "ubuntu:22.04"
             packages: qt6-base-dev qt6-base-dev-tools
           - qt: qt6
             container: "ubuntu:24.04"
+            packages: qt6-base-dev qt6-base-dev-tools
+          - qt: qt6
+            container: "ubuntu:26.04"
             packages: qt6-base-dev qt6-base-dev-tools
           - qt: qt5-implicit
             container: "ubuntu:22.04"
