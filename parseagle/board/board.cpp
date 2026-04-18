@@ -28,15 +28,8 @@ Board::~Board() noexcept
 
 void Board::load(const QByteArray& content, QStringList* errors)
 {
-    QDomDocument doc;
-    doc.implementation().setInvalidDataPolicy(QDomImplementation::ReturnNullNode);
-    QString errMsg;
-    if (!doc.setContent(content, &errMsg)) {
-        throw std::runtime_error(
-            "Error while parsing EAGLE board: " + errMsg.toStdString());
-    }
-    DomElement root(doc.documentElement());
-    DomElement drawing = root.getFirstChild("drawing");
+    const DomElement root = DomElement::parse(content);
+    const DomElement drawing = root.getFirstChild("drawing");
 
     if (drawing.hasChild("grid")) {
         mGrid = Grid(drawing.getFirstChild("grid"));
