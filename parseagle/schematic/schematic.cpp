@@ -27,7 +27,7 @@ Schematic::~Schematic() noexcept
 }
 
 void Schematic::load(const QByteArray& content, QStringList* errors) {
-    const DomElement root = DomElement::parse(content);
+    const DomElement root = DomElement::parseDocument(content);
     const DomElement drawing = root.getFirstChild("drawing");
 
     if (drawing.hasChild("grid")) {

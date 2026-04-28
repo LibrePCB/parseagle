@@ -24,7 +24,7 @@ Library::Library(const QByteArray& content, QStringList* errors)
 
 Library::Library(const DomElement& root, QStringList* errors)
 {
-  load(root, errors);
+    load(root, errors);
 }
 
 Library::~Library() noexcept
@@ -33,7 +33,7 @@ Library::~Library() noexcept
 
 void Library::load(const QByteArray& content, QStringList* errors)
 {
-    const DomElement root = DomElement::parse(content);
+    const DomElement root = DomElement::parseDocument(content);
     const DomElement drawing = root.getFirstChild("drawing");
     const DomElement library = drawing.getFirstChild("library");
     load(library, errors);
