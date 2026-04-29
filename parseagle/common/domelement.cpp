@@ -51,18 +51,21 @@ DomElement DomElement::parse(QXmlStreamReader& reader)
     return root;
 }
 
-DomElement DomElement::parse(const QString& data)
+DomElement DomElement::parse(const QByteArray& data)
 {
     QXmlStreamReader reader;
     reader.addData(data);
     return parse(reader);
 }
 
-DomElement DomElement::parse(const QByteArray& data)
+DomElement DomElement::parseDocument(QByteArray data)
 {
-    QXmlStreamReader reader;
-    reader.addData(data);
-    return parse(reader);
+    // Workaround for garbage in some Eagle XML files, see
+    // https://gitlab.com/kicad/code/kicad/-/work_items/11008
+    data.replace("\x0c", "");
+    data.replace("\x06", "");
+
+    return parse(data);
 }
 
 QString DomElement::getAttributeAsString(const QString& name) const
@@ -72,7 +75,7 @@ QString DomElement::getAttributeAsString(const QString& name) const
     } else {
         throw std::runtime_error(
             QString("Attribute '%1' not found in XML element '%2'.")
-            .arg(name).arg(mName).toStdString());
+            .arg(name, mName).toStdString());
     }
 }
 

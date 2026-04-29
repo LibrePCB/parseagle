@@ -16,8 +16,8 @@ class DomElement final
 
         // Parsers
         static DomElement parse(QXmlStreamReader& reader);
-        static DomElement parse(const QString& data);
         static DomElement parse(const QByteArray& data);
+        static DomElement parseDocument(QByteArray data);
 
         // Getters
         const QString& getTagName() const noexcept {return mName;}
