@@ -60,6 +60,16 @@ DomElement DomElement::parse(const QByteArray& data)
 
 DomElement DomElement::parseDocument(QByteArray data)
 {
+    // Sanity check that no Eagle v5 (binary) project is imported. To avoid
+    // false-positives, we test for several patterns.
+    if ((!data.contains("<?xml")) &&
+        (!data.contains("<!DOCTYPE eagle")) &&
+        (!data.contains("<eagle version"))) {
+        throw std::runtime_error("File does not seem to be from EAGLE v6 or "
+                                 "later (no XML node found). Note that files "
+                                 "from EAGLE v5 or older are not supported.");
+    }
+
     // Workaround for garbage in some Eagle XML files, see
     // https://gitlab.com/kicad/code/kicad/-/work_items/11008
     data.replace("\x0c", "");
